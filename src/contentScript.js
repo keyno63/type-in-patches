@@ -1,3 +1,5 @@
+const IMAGE_SHIELDS_URL = "https://img.shields.io";
+
 function insertTextIntoElement(element, text) {
   if (!element) return false;
 
@@ -39,9 +41,24 @@ function findFallbackEditable() {
 }
 
 chrome.runtime.onMessage.addListener((message) => {
-  if (!message || message.type !== "INSERT_TEXT") return;
+  if (!message) return;
   const target = findFallbackEditable();
-  if (!insertTextIntoElement(target, message.text)) {
-    console.warn("GitHub Comment Inserter: could not insert text.");
+
+  if (message.type === "INSERT_TEXT") {
+    if (!insertTextIntoElement(target, message.text)) {
+      console.warn("GitHub Comment Inserter: could not insert text.");
+    }
+  }
+
+  if (message.type === "INSERT_BADGE") {
+    const badge = message.badge;
+    if (!badge) return;
+    const label = encodeURIComponent(badge.label);
+    const messageText = encodeURIComponent(badge.message);
+    const color = encodeURIComponent(badge.color);
+    const markdown = `![Static Badge](${IMAGE_SHIELDS_URL}/badge/${label}-${messageText}-${color})`;
+    if (!insertTextIntoElement(target, markdown)) {
+      console.warn("GitHub Comment Inserter: could not insert badge.");
+    }
   }
 });

@@ -14,13 +14,24 @@
       </header>
 
       <section class="panel">
+        <h2>Text items</h2>
         <div class="toolbar">
           <button id="add-item" type="button">Add item</button>
-          <button id="save-items" type="button" class="primary">Save</button>
+          <button data-action="save" type="button" class="primary">Save</button>
         </div>
         <ul id="items-list" class="items"></ul>
         <p class="hint">Empty items are ignored. The menu updates automatically after saving.</p>
         <div id="status" class="status" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Batch type</h2>
+        <div class="toolbar">
+          <button id="add-badge" type="button">Add badge</button>
+          <button data-action="save" type="button" class="primary">Save</button>
+        </div>
+        <ul id="badge-list" class="items"></ul>
+        <p class="hint">Each badge needs label, message, and color. These values build the badge URL.</p>
       </section>
     </main>
     <script src="options.js"></script>
